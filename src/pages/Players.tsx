@@ -1,9 +1,11 @@
-function Players(){
-    return(
-    <div>
-        This is Players page
-        </div>
-    )
-}
+// import Table from '@/components/ui/daisy/table';
 
-export default Players
+// function Players() {
+//   return (
+//     <div>
+//       <Table />
+//     </div>
+//   );
+// }
+
+// export default Players;

@@ -1,30 +1,12 @@
-import { ScratchToReveal } from "@/components/ui/scratch-to-reveal";
-
-const ScratchToRevealDemo = () => {
-    const handleComplete = () => {
-      // Do Something
-    };
-   
-    return (
-      <ScratchToReveal
-        width={250}
-        height={250}
-        minScratchPercentage={70}
-        className="flex items-center justify-center overflow-hidden rounded-2xl border-2 bg-gray-100"
-        onComplete={handleComplete}
-        gradientColors={["#A97CF8", "#F38CB8", "#FDCC92"]}
-      >
-        <p className="text-9xl">😎</p>
-      </ScratchToReveal>
-    );
-  };
+import Divider from '@/components/ui/custom/divider';
+import Table from '@/components/ui/daisy/table';
 
 function Home() {
   return (
-    <div className="p-4">
-      <ScratchToRevealDemo/>
+    <div>
+      <Divider height={64} />
+      <Table />
     </div>
-  )
+  );
 }
-
-export default Home
+export default Home;
