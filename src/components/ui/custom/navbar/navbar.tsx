@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -105,16 +104,14 @@ export const NavigationMenuDemo = () => {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="pb-2">Adicionar Jogador</DialogTitle>
+              {/* <DialogDescription>
                 Make changes to your profile here. Click save when you're done.
-              </DialogDescription>
+              </DialogDescription> */}
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Nome
-                </Label>
+            <div className="grid gap-6 py-4">
+              <div className="grid w-full max-w-sm items-center gap-4">
+                <Label htmlFor="name">Nome</Label>
                 <Input
                   id="nome"
                   name="nome"
@@ -123,10 +120,8 @@ export const NavigationMenuDemo = () => {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Email
-                </Label>
+              <div className="grid w-full max-w-sm items-center gap-4">
+                <Label htmlFor="username">Email</Label>
                 <Input
                   id="email"
                   name="email"
@@ -139,7 +134,7 @@ export const NavigationMenuDemo = () => {
             </div>
             <DialogFooter>
               <Button type="submit" onClick={handleSubmit} disabled={isLoading}>
-                Salvar
+                Adicionar
               </Button>
             </DialogFooter>
           </DialogContent>
