@@ -1,5 +1,5 @@
 'use client';
-
+import CustomButton from '@/components/ui/custom/button/button';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -54,20 +54,26 @@ import { cn } from '@/lib/utils';
 
 export function NavigationMenuDemo() {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <Link to="/" className={navigationMenuTriggerStyle()}>
-            Jogadores
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/nonstops" className={navigationMenuTriggerStyle()}>
-            Nonstops
-          </Link>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div className="px-4 py-2">
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link to="/" className={navigationMenuTriggerStyle()}>
+                Jogadores
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/nonstops" className={navigationMenuTriggerStyle()}>
+                Nonstops
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        <CustomButton value="Adicionar jogador" />
+      </div>
+    </div>
   );
 }
 
