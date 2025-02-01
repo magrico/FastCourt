@@ -1,8 +1,22 @@
 'use client';
 import CustomButton from '@/components/ui/custom/button/button';
+import { supabase } from '@/lib/supabase';
 import * as React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   NavigationMenu,
   //NavigationMenuContent,
@@ -14,45 +28,59 @@ import {
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
 
-// const components: { title: string; href: string; description: string }[] = [
-//   {
-//     title: "Alert Dialog",
-//     href: "/docs/primitives/alert-dialog",
-//     description:
-//       "A modal dialog that interrupts the user with important content and expects a response.",
-//   },
-//   {
-//     title: "Hover Card",
-//     href: "/docs/primitives/hover-card",
-//     description:
-//       "For sighted users to preview content available behind a link.",
-//   },
-//   {
-//     title: "Progress",
-//     href: "/docs/primitives/progress",
-//     description:
-//       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-//   },
-//   {
-//     title: "Scroll-area",
-//     href: "/docs/primitives/scroll-area",
-//     description: "Visually or semantically separates content.",
-//   },
-//   {
-//     title: "Tabs",
-//     href: "/docs/primitives/tabs",
-//     description:
-//       "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-//   },
-//   {
-//     title: "Tooltip",
-//     href: "/docs/primitives/tooltip",
-//     description:
-//       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-//   },
-// ]
+export const NavigationMenuDemo = () => {
+  // State to handle form inputs
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+  });
 
-export function NavigationMenuDemo() {
+  // State to handle loading state during submission
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async () => {
+    try {
+      setIsLoading(true);
+
+      // Insert data into Supabase
+      const { data, error } = await supabase
+        .from('players') // Replace 'players' with your table name
+        .insert([
+          {
+            nome: formData.nome,
+            email: formData.email,
+          },
+        ])
+        .select();
+
+      if (error) throw error;
+
+      // Clear form after successful submission
+      setFormData({ nome: '', email: '' });
+
+      // You might want to add a success notification here
+      console.log('Player added successfully:', data);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error adding player:', error.message);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+      // You might want to add an error notification here
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="px-4 py-2">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -71,11 +99,55 @@ export function NavigationMenuDemo() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <CustomButton value="Adicionar jogador" />
+        <Dialog>
+          <DialogTrigger asChild>
+            <CustomButton value="Adicionar jogador" />
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Nome
+                </Label>
+                <Input
+                  id="nome"
+                  name="nome"
+                  value={formData.nome}
+                  onChange={handleChange}
+                  className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="col-span-3"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" onClick={handleSubmit} disabled={isLoading}>
+                Salvar
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
-}
+};
 
 const ListItem = React.forwardRef<
   React.ElementRef<'a'>,
